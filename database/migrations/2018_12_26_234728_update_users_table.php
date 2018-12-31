@@ -25,6 +25,7 @@ class UpdateUsersTable extends Migration
             $table->string('area_code')->after('complement')->nullable();
             $table->string('phone_number')->after('area_code')->nullable();
             $table->smallInteger('registration_completed')->after('remember_token');
+            $table->smallInteger('is_admin')->after('registration_completed')->default(0);
         });
     }
 

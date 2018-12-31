@@ -2,6 +2,16 @@
 
 @section('container')
 
+    @admin
+        <div class="row">
+            <div class="col s12">&nbsp;</div>
+        </div>
+        <div class="row right">
+            <div class="col s12">
+                <a href="{{ route('campaign.create') }}" class="btn-floating btn-large waves-effect waves-light blue darken-1"><i class="material-icons">add</i></a>
+            </div>
+        </div>
+    @endadmin
     <div class="row s12">
         <table class="striped">
             <thead>

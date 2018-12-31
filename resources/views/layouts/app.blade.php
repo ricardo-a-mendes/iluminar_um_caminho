@@ -113,7 +113,7 @@
         <div class="row">
             <div class="col s12 card red lighten-4 z-depth-4">
                 <div class="card-content">
-                    <p>Verifique os seguintes campos:</p>
+                    <p><i class="fa fa-times-circle">&nbsp;</i>Verifique os seguintes campos:</p>
                     <ul>
                         @foreach($errors->all() as $error)
                             <li>{{$error}}</li>
@@ -127,9 +127,34 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col s12 teal lighten-4 z-depth-4">
-                <p>{{$success}}</p>
+                <p><i class="fa fa-check-circle">&nbsp;</i>{{$success}}</p>
             </div>
         </div>
+    @endif
+
+    @if(Session::has('success'))
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col s12 teal lighten-4 z-depth-4">
+                    <p><i class="fa fa-check-circle">&nbsp;</i>{{session('success')}}</p>
+                </div>
+            </div>
+    @endif
+    @if(Session::has('info'))
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col s12 blue lighten-4 z-depth-4">
+                    <p><i class="fa fa-info-circle">&nbsp;</i>{{session('info')}}</p>
+                </div>
+            </div>
+    @endif
+    @if(Session::has('error'))
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col s12 red lighten-4 z-depth-4">
+                    <p><i class="fa fa-times-circle">&nbsp;</i>{{session('error')}}</p>
+                </div>
+            </div>
     @endif
 
     @yield('container')

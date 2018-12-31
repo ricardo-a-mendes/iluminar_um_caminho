@@ -56,7 +56,7 @@
                         </div>
                         <div class="col s2">
                             <div class="input-field">
-                                <a href="#" id="consultaCEP" class="btn-small"><i class="material-icons">search</i></a>
+                                <a href="#" id="consultaCEP" class="btn-small blue darken-1"><i class="material-icons">search</i></a>
                             </div>
                         </div>
                         <div class="col s7">
@@ -101,7 +101,7 @@
         <div class="section">
             <div class="row">
                 <div class="col s12 right-align">
-                    <button type="submit" class="btn btnLoading"><i class="material-icons left">save</i>Salvar</button>
+                    <button type="submit" class="btn btnLoading blue darken-1"><i class="material-icons left">save</i>Salvar</button>
                 </div>
             </div>
         </div>

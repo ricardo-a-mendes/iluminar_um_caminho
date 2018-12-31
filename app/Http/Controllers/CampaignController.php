@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CampaignRequest;
 use App\Models\Campaign;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CampaignController extends Controller
@@ -29,72 +29,97 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        //
+        $campaign = new Campaign();
+
+        return view('campaign/campaign_form_store', compact('campaign'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CampaignRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CampaignRequest $request)
     {
         $campaign = new Campaign();
-        $campaign
-            ->setName($request->post('name'))
-            ->setDescription($request->post('description'))
-            ->setStartsAt($request->post('starts_at'))
-            ->setEndsAt($request->post('ends_at'))
-            ->setTargetAmount($request->post('target_amount'))
-            ->setCreatedBy(Auth::id())
-            ->save();
+        $campaign->name = $request->post('name');
+        $campaign->description = $request->post('description');
+        $campaign->starts_at = $request->post('starts_at');
+        $campaign->ends_at = $request->post('ends_at');
+        $campaign->suggested_donation = $this->formatNumber($request->post('suggested_donation'));
+        $campaign->target_amount = $this->formatNumber($request->post('target_amount'));
+        $campaign->created_by = Auth::id();
+        $campaign->save();
+
+        $request->session()->flash('success', 'Campanha criada com sucesso!');
 
         return redirect()->route('campaign.index');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Campaign  $campaign
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Campaign $campaign)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Campaign  $campaign
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
-    public function edit(Campaign $campaign)
+    public function edit($id)
     {
-        //
+        $campaign = Campaign::find($id);
+
+        if (!$campaign) {
+            throw new \Exception('Campanha não localizada');
+        }
+
+        return view('campaign/campaign_form_store', compact('campaign'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Campaign  $campaign
+     * @param  CampaignRequest  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Campaign $campaign)
+    public function update(CampaignRequest $request, $id)
     {
-        //
+        /** @var Campaign $campaign */
+        $campaign = Campaign::find($id);
+        $campaign->name = $request->post('name');
+        $campaign->description = $request->post('description');
+        $campaign->starts_at = $request->post('starts_at');
+        $campaign->ends_at = $request->post('ends_at');
+        $campaign->suggested_donation = $this->formatNumber($request->post('suggested_donation'));
+        $campaign->target_amount = $this->formatNumber($request->post('target_amount'));
+        $campaign->updated_by = Auth::id();
+
+        $campaign->save();
+
+        return redirect()->route('campaign.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Campaign  $campaign
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Campaign $campaign)
+    public function destroy($id)
     {
-        //
+        return redirect()->route('campaign.index');
+    }
+
+    /**
+     * Format a number to save on DB
+     *
+     * @param string $number
+     * @return string
+     */
+    private function formatNumber(string $number): string
+    {
+        $number = str_replace('.', '', $number);
+        $number = str_replace(',', '.', $number);
+        return number_format($number, 2, '.',  '');
     }
 }

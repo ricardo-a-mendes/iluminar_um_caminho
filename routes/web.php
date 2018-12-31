@@ -28,18 +28,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notify', 'CheckoutController@notifications')->name('checkout_notifications');
 
     Route::resource('user', 'UserController');
+    Route::resource('campaign', 'CampaignController')->except(['index', 'show']);
 
 });
 
-Route::resource('campaign', 'CampaignController');
+Route::resource('campaign', 'CampaignController')->only(['index']);
 
 Route::get('login/facebook', 'SocialiteController@redirectToFacebookProvider')->name('logon_facebook');
 Route::get('login/facebook/callback', 'SocialiteController@handleFacebookProviderCallback');
 
-Route::get('login/google', 'SocialiteController@redirectToGoogleProvider');
-Route::get('login/google/callback', 'SocialiteController@handleGoogleProviderCallback');
-
-Route::get('login/github', 'SocialiteController@redirectToGithubProvider');
-Route::get('login/github/callback', 'SocialiteController@handleGithubProviderCallback');
+//Route::get('login/google', 'SocialiteController@redirectToGoogleProvider');
+//Route::get('login/google/callback', 'SocialiteController@handleGoogleProviderCallback');
+//
+//Route::get('login/github', 'SocialiteController@redirectToGithubProvider');
+//Route::get('login/github/callback', 'SocialiteController@handleGithubProviderCallback');
 
 Auth::routes();
