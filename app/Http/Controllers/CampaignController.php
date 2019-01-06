@@ -72,7 +72,7 @@ class CampaignController extends Controller
             throw new \Exception('Campanha não localizada');
         }
 
-        return view('campaign/campaign_form_store', compact('campaign'));
+        return view('campaign/campaign_form_update', compact('campaign'));
     }
 
     /**

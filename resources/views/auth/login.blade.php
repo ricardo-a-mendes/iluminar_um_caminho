@@ -104,7 +104,7 @@
                                         <div class="ui buttons">
                                             <button class="ui button">Login</button>
                                             <div class="or" data-text="ou"></div>
-                                            <button class="ui blue button"><i class="facebook f icon"></i> Facebook</button>
+                                            <button class="ui facebook button"><i class="facebook f icon"></i> Facebook</button>
                                         </div>
                                     </div>
 

@@ -107,7 +107,7 @@
 
 <div class="grid">&nbsp;</div>
 
-<div class="container">
+<div class="ui container">
 
     @if (count($errors) > 0)
         {{--<div class="row">&nbsp;</div>--}}
@@ -232,6 +232,9 @@
 
         $(":input").inputmask();
         $(".dropdown-trigger").dropdown();
+        $(".addLoading").on('click', function () {
+            $(".showLoading").addClass('loading');
+        });
         $(".btnLoading").on('click', function () {
             let progress = $('#generalLoading').modal({
                 'dismissible': false,

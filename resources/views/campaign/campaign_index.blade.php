@@ -3,26 +3,27 @@
 @section('container')
 
     @admin
-        <div class="row">
-            <div class="col s12">&nbsp;</div>
-        </div>
-        <div class="row right">
-            <div class="col s12">
-                <a href="{{ route('campaign.create') }}" class="btn-floating btn-large waves-effect waves-light blue darken-1"><i class="material-icons">add</i></a>
+    <div class="ui grid">
+        <div class="column row">
+            <div class="column right aligned">
+                <a href="{{ route('campaign.create') }}" class="ui circular blue button">Nova Categoria<i class="plus right aligned icon"></i></a>
             </div>
         </div>
+    </div>
     @endadmin
-    <div class="row s12">
-        <table class="striped">
+
+    <div class="ui vertical segment showLoading">
+
+        <table class="ui celled striped blue table">
             <thead>
-                <tr>
-                    <th>Campanha</th>
-                    <th>Descricao</th>
-                    <th>Termina em</th>
-                    <th>Valor Sugerido</th>
-                    <th>Meta</th>
-                    <th>&nbsp;</th>
-                </tr>
+            <tr>
+                <th>Campanha</th>
+                <th>Descricao</th>
+                <th>Termina em</th>
+                <th>Valor Sugerido</th>
+                <th>Meta</th>
+                <th>&nbsp;</th>
+            </tr>
             </thead>
             <tbody>
             @foreach($campaigns as $campaign)
@@ -32,9 +33,14 @@
                     <td>{{$campaign->ends_at}}</td>
                     <td>R$ {{number_format($campaign->suggested_donation, 2, ',', '.')}}</td>
                     <td>R$ {{number_format($campaign->target_amount, 2, ',', '.')}}</td>
-                    <td><a class="btn blue btnLoading darken-1 waves-effect waves-light" href="{{route('checkout.index', ['id' => $campaign->id])}}">Doar<i class="material-icons right">send</i></a></td>
+                    <td>
+                        <a class="ui button blue addLoading" href="{{route('checkout.index', ['id' => $campaign->id])}}">Doar <i class="paper plane right aligned icon"></i></a>
+                        @admin
+                        <a class="ui button blue addLoading" href="{{route('campaign.edit', ['id' => $campaign->id])}}">Editar<i class="edit outline right aligned icon"></i></a>
+                        @endadmin
+                    </td>
                 </tr>
-                @endforeach
+            @endforeach
             </tbody>
         </table>
     </div>
