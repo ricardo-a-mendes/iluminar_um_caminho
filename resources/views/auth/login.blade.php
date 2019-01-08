@@ -102,7 +102,7 @@
                                     <div class="field">
 
                                         <div class="ui buttons">
-                                            <button class="ui button">Login</button>
+                                            <button class="ui button addLoading">Login</button>
                                             <div class="or" data-text="ou"></div>
                                             <a href="{{route('logon_facebook')}}" class="ui facebook button addLoading"><i class="facebook f icon"></i> Facebook</a>
                                         </div>
@@ -111,10 +111,10 @@
                                 </div>
                             </div>
                             <div class="middle aligned column">
-                                <div class="ui big button">
+                                <a class="ui big button addLoading" href="{{ route('register') }}">
                                     <i class="signup icon"></i>
                                     Registrar
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="ui vertical divider">OU</div>
