@@ -77,7 +77,7 @@
                         </div>
                         <p>Você pode fazer login com sua conta ou utilizar seu Facebook</p>
                     </div>
-                    <div class="ui placeholder attached segment">
+                    <div class="ui placeholder attached segment showLoading">
 
                     <form class="ui form" method="POST" action="{{ route('login') }}">
                         @csrf
@@ -104,7 +104,7 @@
                                         <div class="ui buttons">
                                             <button class="ui button">Login</button>
                                             <div class="or" data-text="ou"></div>
-                                            <button class="ui facebook button"><i class="facebook f icon"></i> Facebook</button>
+                                            <a href="{{route('logon_facebook')}}" class="ui facebook button addLoading"><i class="facebook f icon"></i> Facebook</a>
                                         </div>
                                     </div>
 
