@@ -43,7 +43,7 @@ return [
     'facebook' => [
         'client_id' => '302422630383084',
         'client_secret' => '3fd21c5f86720533c78c74ac93439955',
-        'redirect' => 'https://b2e48ddd.ngrok.io/login/facebook/callback',
+        'redirect' => env('SOCIALITE_CALLBACK_FACEBOOK', 'https://www.projetoiluminarumcaminho.com.br/login/facebook/callback'),
     ],
 
 //    'google' => [
