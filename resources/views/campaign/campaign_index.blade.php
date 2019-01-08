@@ -6,7 +6,7 @@
     <div class="ui grid">
         <div class="column row">
             <div class="column right aligned">
-                <a href="{{ route('campaign.create') }}" class="ui circular blue button">Nova Categoria<i class="plus right aligned icon"></i></a>
+                <a href="{{ route('campaign.create') }}" class="ui circular blue button">Nova Campanha<i class="plus right aligned icon"></i></a>
             </div>
         </div>
     </div>
