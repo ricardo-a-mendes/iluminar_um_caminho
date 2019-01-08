@@ -24,7 +24,7 @@ class UpdateUsersTable extends Migration
             $table->string('complement')->after('state')->nullable();
             $table->string('area_code')->after('complement')->nullable();
             $table->string('phone_number')->after('area_code')->nullable();
-            $table->smallInteger('registration_completed')->after('remember_token');
+            $table->smallInteger('registration_completed')->after('remember_token')->default(0);
             $table->smallInteger('is_admin')->after('registration_completed')->default(0);
         });
     }
@@ -46,7 +46,9 @@ class UpdateUsersTable extends Migration
                 ->removeColumn('state')
                 ->removeColumn('complement')
                 ->removeColumn('area_code')
-                ->removeColumn('phone_number');
+                ->removeColumn('phone_number')
+                ->removeColumn('registration_completed')
+                ->removeColumn('is_admin');
         });
     }
 }
