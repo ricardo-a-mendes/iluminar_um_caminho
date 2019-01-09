@@ -2,76 +2,68 @@
 
 @section('container')
 
-    <div class="row s12"></div>
-    <div class="row">
-        <div class="col s10 offset-2">
-            <form method="POST" action="{{ route('register') }}">
-                <div class="card">
-                    <div class="card-content grey lighten-3">{{ __('Register') }}</div>
+    <div class="ui grid">
 
-                    <div class="card-content">
+        <div class="four wide column">&nbsp;</div>
+        <div class="eight wide column">
 
-                        @csrf
+            <div class="ui blue segment showLoading">
+                <form action="{{route('register')}}" method="post">
+                    @csrf
+                    @method('post')
+                    <div class="ui form">
 
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                                <label for="name">{{ __('Name') }}</label>
+                        <div class="field">
+                            <div class="required field @if ($errors->has('name')) error @endif">
+                                <label for="name">Nome</label>
+                                <input id="name" type="text" name="name" value="{{ old('name') }}">
+                                @if ($errors->has('name'))<small class="helper">{{ $errors->first('name') }}</small>@endif
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                                <label for="email">{{ __('E-Mail Address') }}</label>
+                        <div class="two fields @if ($errors->has('email')) error @endif">
+                            <div class="required field">
+                                <label for="email">E-mail</label>
+                                <input id="email" type="email" name="email" value="{{ old('email') }}">
+                                @if ($errors->has('email'))<small class="helper">{{ $errors->first('email') }}</small>@endif
+                            </div>
+                            <div class="required field">
+                                <label for="email_confirmation">Confirmar E-mail</label>
+                                <input id="email_confirmation" type="email" name="email_confirmation">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="password" type="password" name="password" required>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                                <label for="password">{{ __('Password') }}</label>
+                        <div class="two fields @if ($errors->has('password')) error @endif">
+                            <div class="required field">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" name="password">
+                                @if ($errors->has('password'))<small class="helper">{{ $errors->first('password') }}</small>@endif
+                            </div>
+                            <div class="required field">
+                                <label for="password_confirmation">Confirmar Senha</label>
+                                <input id="password_confirmation" type="password" name="password_confirmation">
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="password-confirm" type="password" name="password_confirmation" required>
-                                <label for="password-confirm">{{ __('Confirm Password') }}</label>
+                        <div class="ui divider"></div>
+                        <div class="ui column grid">
+                            <div class="row">
+                                <div class="column right aligned">
+                                    <button type="submit" class="ui button addLoading blue">Registrar <i
+                                                class="signup right aligned icon"></i></button>
+                                </div>
                             </div>
                         </div>
 
 
                     </div>
-                    <div class="card-action">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <button type="submit" class="btn blue darken-1">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
         </div>
-
     </div>
+
+
+
+
 
 @endsection
