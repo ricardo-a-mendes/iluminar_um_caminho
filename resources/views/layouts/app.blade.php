@@ -109,9 +109,12 @@
 
 @yield('container')
 
+        <div class="ui bottom floating blue message">
+            <i class="copyright outline icon"></i>
+            Copyright {{ date('Y') }} | Projeto Iluminar um Caminho | Todos os direitos reservados.
+        </div>
 
 </div>
-
 
 <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/dropdown.min.js') }}"></script>
