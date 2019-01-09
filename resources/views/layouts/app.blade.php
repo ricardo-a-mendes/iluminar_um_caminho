@@ -28,7 +28,7 @@
 <body>
 <div class="ui container">
     <div class="ui blue inverted menu">
-        <a class="item" href="{{ route('home') }}">Projeto Ilumenar um caminho</a>
+        <a class="item" href="{{ route('home') }}">Projeto Iluminar um Caminho</a>
         <a class="item" href="{{ route('campaign.index') }}">Campanhas</a>
         <div class="right menu">
             <a class="item">Quem Somos</a>
