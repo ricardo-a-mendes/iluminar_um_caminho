@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="campaign_id" value="{{$campaign->id}}">
+            <input type="hidden" name="campaign_id" id="campaignId" value="{{$campaign->id}}">
             <input type="hidden" name="campaign_name" value="{{$campaign->name}}">
             <input type="hidden" name="creditCardToken" id="creditCardToken">
             <input type="hidden" name="installmentValue" id="installmentValue" value="1">
@@ -198,7 +198,24 @@
 
                     $.post(url, data).then(
                         function (result) {
-                            window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
+                            {{--window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';--}}
+                            console.log(result);
+                            let campaign_url = '{{ route('donation.store') }}';
+                            let camp_data = {
+                                campaign_id: $('#campaignId').val(),
+                                donated_amount: $('#donationAmount').val(),
+                                transaction_token: result,
+                                '_token' : $('input[name=_token]').val()
+                            };
+                            $.post(campaign_url, camp_data).then(
+                                function (camp_result) {
+                                    window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
+                                },
+                                function (camp_error) {
+                                    console.log(camp_error);
+                                    $(".showLoading").removeClass('loading');
+                                }
+                            );
                         },
                         function (error) {
                             let errorHTL = '';
@@ -218,11 +235,13 @@
                             // $('#errorList').html(errorHTL);
                             // $('#processError').removeAttr('class', 'hide');
                             // progress.modal('close');
+                            $(".showLoading").removeClass('loading');
                         });
                 },
                 error: function (response) {
                     // progress.modal('close');
                     console.log(response);
+                    $(".showLoading").removeClass('loading');
                 }
             };
 

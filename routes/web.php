@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('user', 'UserController');
     Route::resource('campaign', 'CampaignController')->except(['index', 'show']);
+    Route::resource('donation', 'CheckoutController')->except(['index', 'show']);
 
 });
 

@@ -68,10 +68,12 @@ class CheckoutController extends Controller
                 $senderEmail = 'c05883669321348108367@sandbox.pagseguro.com.br';
             }
 
+            $plainPhone = preg_replace('/\D/', '', $user->phone_number);
+
             //Comprador
             $creditCard->setSender()->setName($user->name);
             $creditCard->setSender()->setEmail($senderEmail);
-            $creditCard->setSender()->setPhone()->withParameters($user->area_code, $user->phone_number);
+            $creditCard->setSender()->setPhone()->withParameters($user->area_code, $plainPhone);
             $creditCard->setSender()->setDocument()->withParameters('CPF', $user->cpf);
             $creditCard->setSender()->setIp($request->ip());
 
@@ -114,7 +116,7 @@ class CheckoutController extends Controller
             /** @var \PagSeguro\Parsers\Transaction\CreditCard\Response $result */
             $result = $creditCard->register($credential);
 
-            echo $result->getReference() . '|' . $result->getCode();
+            echo $result->getCode();
 
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -124,6 +126,7 @@ class CheckoutController extends Controller
     private function initializePagSeguro() {
         $environment = 'sandbox';
         $accountToken = 'DF47D0B7F0054EDF8A15434211598273';
+//        $accountToken = '8F905915B5B588477440DF9356FDF19A';
 
 //            $environment = 'production';
 //            $accountToken = '0AB117C85F5E4AAB9F866CD753EA9D08';

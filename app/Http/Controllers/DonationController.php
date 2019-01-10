@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Donation;
+use App\Models\Donation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DonationController extends Controller
 {
@@ -35,7 +36,17 @@ class DonationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $donation = new Donation();
+        $donation->user_id = Auth::id();
+        $donation->campaign_id = $request->post('campaign_id');
+        $donation->donated_amount = $request->post('donated_amount');
+        $donation->transaction_token = $request->post('transaction_token');
+        $donation->created_at = date('Y-m-d H:i:s');
+        $donation->created_by = Auth::id();
+
+        $donation->save();
+
+        return true;
     }
 
     /**
