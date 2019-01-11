@@ -20,13 +20,27 @@
         .error small.helper {
             color: #9F3A38 !important;
         }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1 0 auto;
+        }
+
+        .footer {
+            flex-shrink: 0;
+        }
+
     </style>
 
     <title>{{ config('app.name', 'Projeto Iluminar um Caminho') }}</title>
 
 </head>
 <body>
-<div class="ui container">
+<div class="ui container content">
     <div class="ui blue inverted menu">
         <a class="item" href="{{ route('home') }}">Projeto Iluminar um Caminho</a>
         <a class="item" href="{{ route('campaign.index') }}">Campanhas</a>
@@ -59,11 +73,6 @@
 
         </div>
     </div>
-</div>
-
-<div class="grid">&nbsp;</div>
-
-<div class="ui container">
 
     @if (count($errors) > 0)
 
@@ -80,13 +89,14 @@
         </div>
     @endif
 
-@yield('container')
+    @yield('container')
+</div>
 
-        <div class="ui bottom floating blue message">
-            <i class="copyright outline icon"></i>
-            Copyright {{ date('Y') }} | Projeto Iluminar um Caminho | Todos os direitos reservados.
-        </div>
-
+<div class="ui container">
+<footer class="ui bottom floating blue message footer">
+    <i class="copyright outline icon"></i>
+    Copyright {{ date('Y') }} | Projeto Iluminar um Caminho | Todos os direitos reservados.
+</footer>
 </div>
 
 <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
