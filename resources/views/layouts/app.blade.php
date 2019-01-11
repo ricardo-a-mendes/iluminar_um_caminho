@@ -74,6 +74,26 @@
         </div>
     </div>
 
+
+    @if (session()->has('success'))
+        <div class="ui success message">
+            <div class="header">Boooa!!</div>
+            <p>{{session()->get('success')}}</p>
+        </div>
+    @endif
+    @if(session()->has('warning'))
+        <div class="ui warning message">
+            <div class="header">Que bom que chegou até aqui!</div>
+            <p>{{ session()->get('warning') }}</p>
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="ui error message">
+            <div class="header">Oh no! Pode nos ajudar com o erro abaixo?</div>
+            <p>{{ session()->get('error') }}</p>
+        </div>
+    @endif
+
     @if (count($errors) > 0)
 
         <div class="ui error message">

@@ -80,9 +80,6 @@
                 <div class="row">
                     <div class="column right aligned">
                         <button type="button" id="btnDoar" class="ui button addLoading blue">Doar <i class="smile outline right aligned icon"></i></button>
-                        <button type="button" id="btnPasso1" class="ui button blue">Passo 1 <i class="smile outline right aligned icon"></i></button>
-                        <button type="button" id="btnPasso2" class="ui button blue">Passo 2 <i class="smile outline right aligned icon"></i></button>
-                        <button type="button" id="btnPasso3" class="ui button blue">Passo 3 <i class="smile outline right aligned icon"></i></button>
                     </div>
                 </div>
             </div>
@@ -119,12 +116,12 @@
         </div>
     </div>
     <div class="ui attached message">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/mastercard.png" alt="Mastercard">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/visa.png" alt="Visa">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/elo.png" alt="Alelo">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/diners.png" alt="Diners Club">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/amex.png" alt="American Express">
-        <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/hipercard.png" alt="Hipercard">
+        <img src="{{ asset('images/payment_flags/mastercard.png') }}" alt="Mastercard">
+        <img src="{{ asset('images/payment_flags/visa.png') }}" alt="Visa">
+        <img src="{{ asset('images/payment_flags/elo.png') }}" alt="Alelo">
+        <img src="{{ asset('images/payment_flags/diners.png') }}" alt="Diners Club">
+        <img src="{{ asset('images/payment_flags/amex.png') }}" alt="American Express">
+        <img src="{{ asset('images/payment_flags/hipercard.png') }}" alt="Hipercard">
     </div>
     <div class="ui bottom attached success message">
         <i class="info icon"></i>

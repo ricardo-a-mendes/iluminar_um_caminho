@@ -35,6 +35,13 @@ class CheckoutController extends Controller
     public function index($id)
     {
         try {
+
+            if (Auth::user()->registration_completed == 0) {
+//
+                session()->flash('warning', 'Precisamos que você finalize o seu cadastro para fazer a doação.');
+                return redirect()->route('user.edit', ['id' => Auth::id()]);
+            }
+
             $error = '';
             $session = $this->initializePagSeguro();
             $campaign = Campaign::find($id);
