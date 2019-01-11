@@ -74,38 +74,11 @@
 
     @endif
     @if (isset($success))
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col s12 teal lighten-4 z-depth-4">
-                <p><i class="fa fa-check-circle">&nbsp;</i>{{$success}}</p>
-            </div>
+        <div class="ui success message">
+            <div class="header">Boooa!!</div>
+            <p>{{$success}}</p>
         </div>
     @endif
-
-    @if(Session::has('success'))
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col s12 teal lighten-4 z-depth-4">
-                <p><i class="fa fa-check-circle">&nbsp;</i>{{session('success')}}</p>
-            </div>
-        </div>
-    @endif
-    @if(Session::has('info'))
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col s12 blue lighten-4 z-depth-4">
-                <p><i class="fa fa-info-circle">&nbsp;</i>{{session('info')}}</p>
-            </div>
-        </div>
-    @endif
-    @if(Session::has('error'))
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col s12 red lighten-4 z-depth-4">
-                <p><i class="fa fa-times-circle">&nbsp;</i>{{session('error')}}</p>
-            </div>
-        </div>
-@endif
 
 @yield('container')
 

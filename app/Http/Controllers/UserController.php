@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdate;
-use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,8 +84,6 @@ class UserController extends Controller
         if (Auth::id() != $id) {
             return redirect()->route('home');
         }
-
-        $validated = $request->validated();
 
         $user = Auth::user();
         //Personal info

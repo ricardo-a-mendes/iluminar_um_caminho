@@ -19,7 +19,12 @@ class CampaignController extends Controller
         $ends_at = new Carbon();
         $campaigns = Campaign::where('ends_at', '>=', $ends_at->format('Y-m-d'))->get();
 
-        return view('campaign/campaign_index', compact('campaigns'));
+        $success = null;
+        if (session()->has('success')) {
+            $success = session('success');
+        }
+
+        return view('campaign/campaign_index', compact('campaigns', 'success'));
     }
 
     /**

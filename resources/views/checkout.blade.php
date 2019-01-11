@@ -80,6 +80,9 @@
                 <div class="row">
                     <div class="column right aligned">
                         <button type="button" id="btnDoar" class="ui button addLoading blue">Doar <i class="smile outline right aligned icon"></i></button>
+                        <button type="button" id="btnPasso1" class="ui button blue">Passo 1 <i class="smile outline right aligned icon"></i></button>
+                        <button type="button" id="btnPasso2" class="ui button blue">Passo 2 <i class="smile outline right aligned icon"></i></button>
+                        <button type="button" id="btnPasso3" class="ui button blue">Passo 3 <i class="smile outline right aligned icon"></i></button>
                     </div>
                 </div>
             </div>
@@ -89,6 +92,31 @@
             <input type="hidden" name="installmentValue" id="installmentValue" value="1">
             <input type="hidden" name="installmentQuantity" id="installmentQuantity" value="1">
         </form>
+    </div>
+    <div class="ui teal attached message hidden" id="steps">
+        <div class="ui mini steps">
+            <div class="active step" id="step_lock">
+                <i class="lock icon"></i>
+                <div class="content">
+                    <div class="title">Passo 1 - Segurança</div>
+                    <div class="description">Criptografando seus dados</div>
+                </div>
+            </div>
+            <div class="disabled step" id="step_payment">
+                <i class="payment icon"></i>
+                <div class="content">
+                    <div class="title">Passo 2 - Integração</div>
+                    <div class="description">Recebendo sua doação através do Pag Seguro</div>
+                </div>
+            </div>
+            <div class="disabled step" id="step_confirmation">
+                <i class="info icon"></i>
+                <div class="content">
+                    <div class="title">PAsso 3 - Finalizando</div>
+                    <div class="description">Confirmando sua doação</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="ui attached message">
         <img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/mastercard.png" alt="Mastercard">
@@ -138,44 +166,15 @@
             }
         });
 
-        $('#btnPrepare').on('click', function (e) {
-            e.preventDefault();
-
-            let progress = $('.modal').modal();
-            let fullCard = $('#cardNumber').val();
-            let numCard = fullCard.split('_').join('').split(' ').join('');
-
-            progress.modal('open');
-
-            let params = {
-                cardNumber: numCard,
-                cvv: $('#cvv').val(),
-                expirationMonth: $('#expirationMonth').val(),
-                expirationYear: $('#expirationYear').val(),
-                brand: 'visa',
-                success: function (response) {
-                    //bandeira encontrada
-                    $('#creditCardToken').val(response.card.token);
-                },
-                error: function (response) {
-                    console.log('error');
-                    console.log(response);
-                },
-                complete: function (response) {
-                    //tratamento comum para todas chamadas
-                    progress.modal('close');
-                }
-            };
-
-            PagSeguroDirectPayment.createCardToken(params);
-
-        });
-
         $('#btnDoar').on('click', function (e) {
             e.preventDefault();
 
-            // $('#steps').html('Passo 1 de 2 - Preparando os dados');
-            // let progress = $('#processing').modal();
+            $('#step_lock').removeClass('disabled').addClass('active');
+            $('#step_payment').removeClass('active').addClass('disabled');
+            $('#step_confirmation').removeClass('active').addClass('disabled');
+            $('#steps').removeClass('hidden');
+
+            // Passo 1
             let fullCard = $('#cardNumber').val();
             let numCard = fullCard.split('_').join('').split(' ').join('');
 
@@ -194,12 +193,17 @@
                     let url = $('#form_checkout').attr('action');
                     let data = $('#form_checkout').serialize();
 
-                    // $('#steps').html('Passo 2 de 2 - Integrando com PagSeguro!');
+                    // Passo 2
+                    $('#step_lock').removeClass('active');
+                    $('#step_payment').removeClass('disabled').addClass('active');
 
                     $.post(url, data).then(
                         function (result) {
-                            {{--window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';--}}
-                            console.log(result);
+
+                            // Passo 3
+                            $('#step_payment').removeClass('active');
+                            $('#step_confirmation').removeClass('disabled').addClass('active');
+
                             let campaign_url = '{{ route('donation.store') }}';
                             let camp_data = {
                                 campaign_id: $('#campaignId').val(),
@@ -209,6 +213,7 @@
                             };
                             $.post(campaign_url, camp_data).then(
                                 function (camp_result) {
+                                    $('#steps').addClass('hidden');
                                     window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
                                 },
                                 function (camp_error) {

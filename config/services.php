@@ -41,27 +41,9 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => '302422630383084',
-        'client_secret' => '3fd21c5f86720533c78c74ac93439955',
-        'redirect' => env('SOCIALITE_CALLBACK_FACEBOOK', 'https://www.projetoiluminarumcaminho.com.br/login/facebook/callback'),
-    ],
-
-//    'google' => [
-//        'client_id' => '360865786227-onggi8p64vdvb03d4q7jsi74e1ap0g78.apps.googleusercontent.com',
-//        'client_secret' => 'd1zyKxoBCendVW5L4qQUKiQX',
-//        'redirect' => 'https://cc8c925e.ngrok.io/checkout',
-//    ],
-
-    'google' => [
-        'client_id' => '360865786227-dle40r87g1hoeinl9bvl1lg1aea0a1rt.apps.googleusercontent.com',
-        'client_secret' => '9Bej6N026AV_BnHAt64CeWlu',
-        'redirect' => '/login/google/callback',
-    ],
-
-    'github' => [
-        'client_id' => '80e6fc880d288a022e68',
-        'client_secret' => '2d0cad17ad9154bcfbc9b889437b9f62c00319f9',
-        'redirect' => 'https://b2e48ddd.ngrok.io/login/github/callback',
+        'client_id' => env('SOCIALITE_FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('SOCIALITE_FACEBOOK_SECRET'),
+        'redirect' => env('APP_URL') . env('SOCIALITE_FACEBOOK_CALLBACK', '/login/facebook/callback'),
     ],
 
 ];

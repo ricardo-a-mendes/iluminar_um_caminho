@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckOutRequest;
 use App\Models\Campaign;
+use App\Models\Donation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -12,12 +14,27 @@ use PagSeguro\Parsers\Session\Response;
 class CheckoutController extends Controller
 {
 
-    private $accountEmail = 'eng.rmendes@gmail.com';
+    /**
+     * Pag Seguro Account Email
+     *
+     * @var string
+     */
+    private $accountEmail = '';
 
+    public function __construct()
+    {
+        $this->accountEmail = env('PAG_SEGURO_ACCOUNT_EMAIL');
+    }
+
+    /**
+     * Displays checkout view
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($id)
     {
         try {
-
             $error = '';
             $session = $this->initializePagSeguro();
             $campaign = Campaign::find($id);
@@ -30,12 +47,19 @@ class CheckoutController extends Controller
         return view('checkout', compact('campaign', 'error', 'session'));
     }
 
+    /**
+     * Executes the checkout - Integration with PagSeguro
+     *
+     * @param CheckOutRequest $request
+     */
     public function process(CheckOutRequest $request)
     {
         try {
             $ccToken = $request->post('creditCardToken');
             $campaignId = $request->post('campaign_id');
             $campaignName = $request->post('campaign_name');
+
+            /** @var User $user */
             $user = Auth::user();
 
             $this->initializePagSeguro();
@@ -109,7 +133,8 @@ class CheckoutController extends Controller
             $creditCard->setHolder()->setDocument()->withParameters('CPF', $request->post('creditCardHolderCPF'));
             $creditCard->setMode('DEFAULT');
 
-            $creditCard->setNotificationUrl('https://b2e48ddd.ngrok.io/notify');
+            $appRUL = env('APP_URL');
+            $creditCard->setNotificationUrl("{$appRUL}/notify");
 
             $credential = \PagSeguro\Configuration\Configure::getAccountCredentials();
 
@@ -123,15 +148,16 @@ class CheckoutController extends Controller
         }
     }
 
-    private function initializePagSeguro() {
-        $environment = 'sandbox';
-        $accountToken = 'DF47D0B7F0054EDF8A15434211598273';
-//        $accountToken = '8F905915B5B588477440DF9356FDF19A';
-
-//            $environment = 'production';
-//            $accountToken = '0AB117C85F5E4AAB9F866CD753EA9D08';
-
-        $this->accountEmail = 'eng.rmendes@gmail.com';
+    /**
+     * Get Pag Seguro Session
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    private function initializePagSeguro()
+    {
+        $environment = env('PAG_SEGURO_ENVIRONMENT');
+        $accountToken = env('PAG_SEGURO_ACCOUNT_TOKEN');
 
         \PagSeguro\Library::initialize();
 
@@ -147,11 +173,72 @@ class CheckoutController extends Controller
         return $response->getResult();
     }
 
+    /**
+     * Handle notifications
+     *
+     * @param Request $request
+     * @throws \Exception
+     */
     public function notifications(Request $request)
     {
-        Log::debug(json_encode($request->all()));
+//        Log::debug($request->post('notificationCode'));
+        try {
+            $this->initializePagSeguro();
+            $credential = \PagSeguro\Configuration\Configure::getAccountCredentials();
+            if (\PagSeguro\Helpers\Xhr::hasPost()) {
+
+                /** @var \PagSeguro\Parsers\Transaction\Response $response */
+                $response = \PagSeguro\Services\Transactions\Notification::check(
+                /** @var \PagSeguro\Domains\AccountCredentials | \PagSeguro\Domains\ApplicationCredentials $credential */
+                    $credential
+                );
+
+                if (is_object($response)) {
+
+                    $where = [
+                        ['campaign_id', '=', $response->getReference()],
+                        ['transaction_token', '=', $response->getCode()]
+                    ];
+
+                    $donation = Donation::where($where)->first();
+
+                    /** @var \PagSeguro\Domains\CreditorFees $d */
+                    $d = $response->getCreditorFees();
+
+                    if ($donation instanceof Donation) {
+                        $donation->intermediation_fee = $d->getIntermediationFeeAmount();
+                        $donation->intermediation_rate = $d->getIntermediationRateAmount();
+                        $donation->received_amount = $response->getNetAmount();
+                        $donation->updated_at = date('Y-m-d H:i:s');
+                        $donation->updated_by = 0;
+
+                        $donation->save();
+                    }
+
+//                    Log::debug('-- --------------------------------');
+//                    Log::debug('Net: ' . $response->getNetAmount());
+//                    Log::debug('Gross: ' . $response->getGrossAmount());
+//                    Log::debug('Ref: ' . $response->getReference());
+//                    Log::debug('code: ' . $response->getCode());
+//                    Log::debug('Taxa Cartao: ' . ($d->getIntermediationFeeAmount()));
+//                    Log::debug('Taxa Pag Seguro: ' . ($d->getIntermediationRateAmount()));
+                } else {
+                    throw new \Exception('Pag seguro enviou response inesperado na notificação');
+                }
+            } else {
+                throw new \InvalidArgumentException($_POST);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            die($e->getMessage());
+        }
     }
 
+    /**
+     * Thanks page - Redirect after donation
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function thanks()
     {
         return view('thanks');

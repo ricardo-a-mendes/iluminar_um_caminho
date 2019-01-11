@@ -36,17 +36,22 @@ class DonationController extends Controller
      */
     public function store(Request $request)
     {
+        $donationAmount = str_replace('.', '', $request->post('donated_amount'));
+        $donationAmount = str_replace(',', '.', $donationAmount);
+        $donationAmount = number_format($donationAmount, 2, '.',  '');
+
+
         $donation = new Donation();
         $donation->user_id = Auth::id();
         $donation->campaign_id = $request->post('campaign_id');
-        $donation->donated_amount = $request->post('donated_amount');
+        $donation->donated_amount = $donationAmount;
         $donation->transaction_token = $request->post('transaction_token');
         $donation->created_at = date('Y-m-d H:i:s');
         $donation->created_by = Auth::id();
 
         $donation->save();
 
-        return true;
+        return 'true';
     }
 
     /**

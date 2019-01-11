@@ -24,7 +24,7 @@ class CreateDonationsTable extends Migration
             $table->timestamp('created_at', 0)->nullable();
             $table->integer('created_by');
             $table->timestamp('updated_at', 0)->nullable();
-            $table->integer('updated_by');
+            $table->integer('updated_by')->nullable();
         });
     }
 
