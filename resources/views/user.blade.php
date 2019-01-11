@@ -12,7 +12,7 @@
                     <div class="eight wide column">
                         <div class="field">
                             <div class="required field @if ($errors->has('name')) error @endif">
-                                <label for="name">Nome</label>
+                                <label for="name">Nome Completo</label>
                                 <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}">
                                 @if ($errors->has('name'))<small class="helper">{{ $errors->first('name') }}</small>@endif
                             </div>

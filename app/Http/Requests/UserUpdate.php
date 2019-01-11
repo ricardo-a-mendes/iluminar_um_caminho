@@ -24,7 +24,16 @@ class UserUpdate extends FormRequest
     public function rules()
     {
         $validation = [
-            'name' => 'required',
+            'name' => [
+                'required',
+                function($attribute, $value, $fail) {
+                    $wordCount = explode(' ', $value);
+
+                    if (count($wordCount) < 2) {
+                        $fail('Por favor informe seu nome completo.');
+                    }
+                }
+            ],
             'cpf' => 'required',
 
             'street_number' => 'required',
