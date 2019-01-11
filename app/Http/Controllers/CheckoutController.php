@@ -88,7 +88,7 @@ class CheckoutController extends Controller
             );
 
             $senderEmail = $user->email;
-            if (env('APP_ENV') == 'dev') {
+            if (env('PAG_SEGURO_ENVIRONMENT', 'sandbox') == 'sandbox') {
                 $senderEmail = 'c05883669321348108367@sandbox.pagseguro.com.br';
             }
 
