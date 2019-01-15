@@ -105,7 +105,7 @@
             <div class="disabled step" id="step_confirmation">
                 <i class="info icon"></i>
                 <div class="content">
-                    <div class="title">PAsso 3 - Finalizando</div>
+                    <div class="title">Passo 3 - Finalizando</div>
                     <div class="description">Confirmando sua doação</div>
                 </div>
             </div>
