@@ -24,6 +24,7 @@
         body {
             display: flex;
             flex-direction: column;
+            background-color: rgba(0,0,0,.05);
         }
 
         .content {

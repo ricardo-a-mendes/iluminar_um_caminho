@@ -15,18 +15,15 @@
                     <!-- Vaor da doação -->
                     <div class="three column row">
                         <div class="four wide column">&nbsp;</div>
-                        <div class="two wide column">
-                            <div class="field">
+                        <div class="twelve wide column">
+                            <div class="field three wide">
                                 <div class="required field">
                                     <label for="donationAmount">Valor da Doação</label>
-                                    <input type="text" id="donationAmount" name="donationAmount" value="30,00"
+                                    <input type="text" id="donationAmount" name="donationAmount"
                                            data-inputmask="'mask': '9{1,},9{2}', 'placeholder': ''">
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="ten wide column">
-                            <div class="bottom aligned">Valor sugerido R$ {{number_format($campaign->suggested_donation, 2, ',', '.')}}</div>
+                            <small>Valor sugerido R$ {{number_format($campaign->suggested_donation, 2, ',', '.')}}</small>
                         </div>
                     </div>
 
@@ -37,17 +34,16 @@
                             <div class="three fields">
                                 <div class="ten wide required field">
                                     <label for="cardNumber">Número do cartão</label>
-                                    <input type="text" id="cardNumber" data-inputmask="'mask': '9999 9999 9999 9999', 'placeholder': ''"
-                                           value="4111111111111111">
+                                    <input type="text" id="cardNumber" data-inputmask="'mask': '9999 9999 9999 9999', 'placeholder': ''">
                                 </div>
                                 <div class="three wide required field">
                                     <label for="cvv">cvv</label>
-                                    <input type="text" id="cvv" value="123">
+                                    <input type="text" id="cvv">
                                 </div>
                                 <div class="three wide required field">
                                     <label for="expiration">Expira</label>
                                     <input type="text" id="expiration" data-inputmask="'mask': '99/99', 'placeholder': ''"
-                                           placeholder="mm/aa" value="12/30">
+                                           placeholder="mm/aa">
                                 </div>
                             </div>
                         </div>
@@ -61,12 +57,12 @@
                             <div class="two fields">
                                 <div class="ten wide required field">
                                     <label for="creditCardHolderName">Nome completo</label>
-                                    <input type="text" id="creditCardHolderName" name="creditCardHolderName" value="João Comprador">
+                                    <input type="text" id="creditCardHolderName" name="creditCardHolderName">
                                 </div>
                                 <div class="six wide required field">
                                     <label for="creditCardHolderCPF">CPF</label>
                                     <input type="text" id="creditCardHolderCPF" name="creditCardHolderCPF"
-                                           data-inputmask="'mask': '999.999.999-99', 'placeholder': ''" value="12345678909">
+                                           data-inputmask="'mask': '999.999.999-99', 'placeholder': ''">
                                 </div>
 
                             </div>
@@ -125,7 +121,7 @@
     </div>
     <div class="ui bottom attached success message">
         <i class="info icon"></i>
-            A doação será recebida através do PagSeguro
+            A doação será recebida através do PagSeguro. Haverá um desconto de 3,99% + R$ 0,40.
     </div>
 
 @endsection

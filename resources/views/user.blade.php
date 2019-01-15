@@ -50,15 +50,15 @@
                     <!-- Endereco -->
                     <div class="eight wide column">
                         <div class="three fields">
-                            <div class="required four wide field @if ($errors->has('postal_code')) error @endif">
+                            <div class="required five wide field @if ($errors->has('postal_code')) error @endif">
                                 <label for="postal_code">CEP</label>
-                                <input id="postal_code" type="text" id="postal_code" name="postal_code" data-inputmask="'mask': '99999-999', 'placeholder': ''" value="{{ old('postal_code', $user->postal_code) }}">
+                                <div class="ui icon input">
+                                    <input id="postal_code" type="text" id="postal_code" name="postal_code" data-inputmask="'mask': '99999-999', 'placeholder': ''" value="{{ old('postal_code', $user->postal_code) }}">
+                                    <i id="consultaCEP" class="inverted circular search link icon"></i>
+                                </div>
                                 @if ($errors->has('postal_code'))<small class="helper">{{ $errors->first('postal_code') }}</small>@endif
                             </div>
-                            <div class="one wide field">
-                                <label for="">&nbsp;</label>
-                                <a href="#" id="consultaCEP"><i class="magnify large icon"></i></a>
-                            </div>
+
                             <div class="required eleven wide field @if ($errors->has('street_name')) error @endif">
                                 <label for="street_name">Endereço</label>
                                 <input id="street_name" type="text" name="street_name" value="{{ old('street_name', $user->street_name) }}">
