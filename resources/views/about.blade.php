@@ -16,7 +16,7 @@
                     </div>
                     <div class="content">
                         <div class="header">Diego Nobrega</div>
-                        <div class="meta">"Agir agora"</div>
+                        <div class="meta">"O vitaminado"</div>
                     </div>
                 </div>
             </div>
