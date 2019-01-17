@@ -2,11 +2,10 @@
 
 @section('container')
 
-    <div class="ui segments">
-        <div class="ui segment">
+        <div class="ui raised segment">
             <div class="ui grid">
-                <div class="four wide column"><img class="ui medium circular image"
-                                                   src="{{ asset('images/projeto_iluminar_um_caminho.jpeg') }}"></div>
+                <div class="four wide column">
+                    <img class="ui medium circular image" src="{{ asset('images/projeto_iluminar_um_caminho.jpeg') }}"></div>
                 <div class="twelve wide column">
                     <h2 class="ui header center aligned">
                         <div class="content">
@@ -20,7 +19,7 @@
             </div>
         </div>
 
-        <div class="ui left aligned attached blue segment">
+        <div class="ui stacked left aligned blue segment">
             <div class="ui two column very relaxed left aligned grid">
                 <div class="ui vertical divider"></div>
 
@@ -87,10 +86,5 @@
 
             </div>
         </div>
-    </div>
-
-
-
-
 
 @endsection

@@ -38,7 +38,7 @@ services:
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
       environment:
         # Change remote_host to your local IP
-#        - XDEBUG_CONFIG=remote_host=192.168.1.46 remote_enable=1 remote_port=9000 remote_connect_back=0
+        - XDEBUG_CONFIG=remote_host=192.168.1.46 remote_enable=1 remote_port=9000 remote_connect_back=0
 #        - XDEBUG_CONFIG=remote_host=192.168.0.46 remote_enable=1 remote_port=9000 remote_connect_back=0
 
         # Configure a new server (PHPStorm -> Preferences -> Languages & Frameworks -> PHP -> Servers):

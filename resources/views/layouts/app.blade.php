@@ -46,7 +46,7 @@
         <a class="item" href="{{ route('home') }}">Projeto Iluminar um Caminho</a>
         <a class="item" href="{{ route('campaign.index') }}">Campanhas</a>
         <div class="right menu">
-            <a class="item">Quem Somos</a>
+            <a class="item" href="{{ route('about') }}">Quem Somos</a>
 
             @guest
                 <a class="item" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -141,6 +141,10 @@
             $(".showLoading").addClass('loading');
         });
 
+        //Configurando comprtamento padrao do toastr
+        toastr.options.closeButton = true;
+        toastr.options.timeOut = 0;
+        toastr.options.extendedTimeOut = 0;
     });
 </script>
 

@@ -132,33 +132,16 @@
 
     <script>
 
+        $('#donationAmount').val('16,50');
+        $('#cardNumber').val('4111111111111111');
+        $('#cvv').val('123');
+        $('#expiration').val('12/30');
+        $('#creditCardHolderName').val('Comprador Teste');
+        $('#creditCardHolderCPF').val('57822101250');
+
         PagSeguroDirectPayment.setSessionId('{{$session}}');
 
-
-        $('#cardNumber').on('keyup', function () {
-            let fullCartao = $(this).val();
-            let numCartao = fullCartao.split('_').join('').split(' ').join('');
-
-            if (numCartao.length == 6) {
-
-                PagSeguroDirectPayment.getBrand({
-                    cardBin: numCartao,
-                    success: function (response) {
-                        //bandeira encontrada
-                        console.log('Success');
-                        console.log(response.brand.name);
-                    },
-                    error: function (response) {
-                        console.log('error');
-                        console.log(response);
-                    },
-                    complete: function (response) {
-                        //tratamento comum para todas chamadas
-                    }
-                });
-            }
-        });
-
+        // Passo 1 - Gerar o token do cartao de credito
         $('#btnDoar').on('click', function (e) {
             e.preventDefault();
 
@@ -170,81 +153,94 @@
             // Passo 1
             let fullCard = $('#cardNumber').val();
             let numCard = fullCard.split('_').join('').split(' ').join('');
-
-            // progress.modal('open');
-            console.log(numCard);
-
             let expiration = $('#expiration').val().split('/');
+
             let params = {
                 cardNumber: numCard,
                 cvv: $('#cvv').val(),
                 expirationMonth: expiration[0],
                 expirationYear: '20' + expiration[1],
-                // brand: 'mastercard',
                 success: function (response) {
-                    $('#creditCardToken').val(response.card.token);
-                    let url = $('#form_checkout').attr('action');
-                    let data = $('#form_checkout').serialize();
-
-                    // Passo 2
-                    $('#step_lock').removeClass('active');
-                    $('#step_payment').removeClass('disabled').addClass('active');
-
-                    $.post(url, data).then(
-                        function (result) {
-
-                            // Passo 3
-                            $('#step_payment').removeClass('active');
-                            $('#step_confirmation').removeClass('disabled').addClass('active');
-
-                            let campaign_url = '{{ route('donation.store') }}';
-                            let camp_data = {
-                                campaign_id: $('#campaignId').val(),
-                                donated_amount: $('#donationAmount').val(),
-                                transaction_token: result,
-                                '_token' : $('input[name=_token]').val()
-                            };
-                            $.post(campaign_url, camp_data).then(
-                                function (camp_result) {
-                                    $('#steps').addClass('hidden');
-                                    window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
-                                },
-                                function (camp_error) {
-                                    console.log(camp_error);
-                                    $(".showLoading").removeClass('loading');
-                                }
-                            );
-                        },
-                        function (error) {
-                            let errorHTL = '';
-                            if (error.status == 403) {
-                                errorHTL += '<p>Você deve finalizar seu cadastro para poder efetuar uma doação.</p>';
-                                errorHTL += '<a href="{{ route('user.update', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}">Clique aqui para fazer a atualização.</a>';
-                            } else {
-                                errorHTL += '<ul>';
-
-                                for (let [key, value] of Object.entries(error.responseJSON.errors)) {
-                                    errorHTL += '<li>' + value + '</li>';
-                                }
-
-                                errorHTL += '</ul>';
-                            }
-
-                            // $('#errorList').html(errorHTL);
-                            // $('#processError').removeAttr('class', 'hide');
-                            // progress.modal('close');
-                            $(".showLoading").removeClass('loading');
-                        });
+                    executeCheckOut(response.card.token)
                 },
                 error: function (response) {
-                    // progress.modal('close');
                     console.log(response);
+                    if (response.error === true) {
+                        for (let [key, value] of Object.entries(response.errors)) {
+                            toastr.error(value, 'Erro com mo cartão de crédito:');
+                        }
+                    }
                     $(".showLoading").removeClass('loading');
                 }
             };
 
             PagSeguroDirectPayment.createCardToken(params);
-        })
+        });
+
+        // Passo 2 - Executar o checkout com o token do cartão gerado pelo pag seguro
+        function executeCheckOut(token) {
+
+            $('#creditCardToken').val(token);
+
+            let url = $('#form_checkout').attr('action');
+            let data = $('#form_checkout').serialize();
+
+            $('#step_lock').removeClass('active');
+            $('#step_payment').removeClass('disabled').addClass('active');
+
+            $.post(url, data).then(
+
+                function (result) {
+                    finishDonation(result);
+                },
+                function (error) {
+                    let errorHTL = '';
+                    if (error.status === 403) {
+                        errorHTL += '<p>Você deve finalizar seu cadastro para poder efetuar uma doação.</p>';
+                        errorHTL += '<a href="{{ route('user.update', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}">Clique aqui para fazer a atualização.</a>';
+                    } else if (error.status === 409) {
+                        errorHTL += '<p>'+error.responseText+'</p>';
+                    } else {
+                        errorHTL += '<ul>';
+
+                        for (let [key, value] of Object.entries(error.responseJSON.errors)) {
+                            errorHTL += '<li>' + value + '</li>';
+                        }
+
+                        errorHTL += '</ul>';
+                    }
+
+                    toastr.error(errorHTL, 'Transação não executada:');
+
+                    $(".showLoading").removeClass('loading');
+                });
+        }
+
+        // Passo 3 - Salvar o token da transação enviado pelo pag seguro
+        function finishDonation(transactionToken) {
+
+            $('#step_payment').removeClass('active');
+            $('#step_confirmation').removeClass('disabled').addClass('active');
+
+            let campaign_url = '{{ route('donation.store') }}';
+            let campaign_data = {
+                campaign_id: $('#campaignId').val(),
+                donated_amount: $('#donationAmount').val(),
+                transaction_token: transactionToken,
+                '_token' : $('input[name=_token]').val()
+            };
+
+            $.post(campaign_url, campaign_data).then(
+                function (campaign_result) {
+                    $('#steps').addClass('hidden');
+                    window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
+                },
+                function (camp_error) {
+                    $(".showLoading").removeClass('loading');
+                    window.location = '{{ route('checkout_thanks', ['id' => 0]) }}';
+                }
+            );
+        }
 
     </script>
 @endsection
