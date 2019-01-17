@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('css/semantic.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dropdown.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/transition.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
@@ -43,7 +44,7 @@
 <body>
 <div class="ui container content">
     <div class="ui blue inverted menu">
-        <a class="item" href="{{ route('home') }}">Projeto Iluminar um Caminho</a>
+        <a class="item mobile only" href="{{ route('home') }}">Projeto Iluminar um Caminho</a>
         <a class="item" href="{{ route('campaign.index') }}">Campanhas</a>
         <div class="right menu">
             <a class="item" href="{{ route('about') }}">Quem Somos</a>
@@ -74,6 +75,21 @@
 
         </div>
     </div>
+
+    <div class="ui sidebar inverted vertical menu">
+        <a class="item">
+            1
+        </a>
+        <a class="item">
+            2
+        </a>
+        <a class="item">
+            3
+        </a>
+    </div>
+    <div class="pusher">
+        <!-- Site content !-->
+
 
 
     @if (session()->has('success'))
@@ -111,6 +127,7 @@
     @endif
 
     @yield('container')
+    </div>
 </div>
 
 <div class="ui container">
@@ -121,6 +138,7 @@
 </div>
 
 <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sidebar.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/dropdown.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/transition.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/toastr.min.js') }}"></script>

@@ -27,7 +27,7 @@
                     </div>
                     <div class="content">
                         <div class="header">Mariana Favaro</div>
-                        <div class="meta">"Ser é diferente de estar"</div>
+                        <div class="meta">"A liberdade só será possível quando você estiver tão inteiro que também possa enfrentar a responsabilidade de ser livre."</div>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
 
     <div class="ui stacked segment">
         <p>Tudo começou quando fizemos uma sequência de treinamentos de desenvolvimento pessoal com a equipe da <a
-                    href="http://dimensaonet.com.br/new/">Dimensão</a>.
+                    href="http://dimensaonet.com.br/new/" target="_blank">Dimensão</a>.
             <br>
             Nestes treinamentos entendemos a importância de ajudar o próximo sem esperar nada de volta, ou seja: doar, iluminar.
             <br>
